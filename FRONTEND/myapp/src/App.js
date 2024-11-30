@@ -8,6 +8,7 @@ function App() {
   const [isLightOn, setIsLightOn] = useState(false);
   const [brightness, setBrightness] = useState(50);
 
+
   return (
     <div>
       <Header />

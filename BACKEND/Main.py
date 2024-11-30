@@ -1,19 +1,21 @@
 import asyncio
 import time
-from flask import Flask, render_template
+
+from flask import Flask, render_template, jsonify, send_from_directory
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
 from selenium.webdriver.common.by import By
+from flask_cors import CORS
 
 
 
 
-
-app = Flask(__name__)
-
+app = Flask(__name__,static_folder="../FRONTEND/myapp/build",static_url_path="/")
 @app.route("/")
-def index():
-    return render_template("index.html")
+def serve():
+    return send_from_directory(app.static_folder, "index.html")
+
+
+
 
 
 def run_selenium():
