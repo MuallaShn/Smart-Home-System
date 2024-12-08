@@ -3,6 +3,30 @@ import { Card, Button, Form } from "react-bootstrap";
 import { Lightbulb, LightbulbFill, VolumeUp } from "react-bootstrap-icons";
 
 export function DeviceControls({ isLightOn, setIsLightOn, brightness, setBrightness, volume, setVolume }) {
+
+
+     const toggleLight = () => {
+    setIsLightOn(!isLightOn);
+    console.log("Işık durumu değiştirildi:", !isLightOn ? "Açıldı" : "Kapatıldı");
+    fetch("http://127.0.0.1:5000/turn_on", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ komut: isLightOn ? "ışığı kapat" : "ışığı aç" }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Backend'e ışık komutu gönderildi:", !isLightOn ? "Aç" : "Kapat");
+        } else {
+          console.error("Hata oluştu:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Bağlantı hatası:", error.message);
+      });
+  };
+
   return (
     <div className="row justify-content-center" style={{ columnGap: "8rem" }}>
 
@@ -14,7 +38,8 @@ export function DeviceControls({ isLightOn, setIsLightOn, brightness, setBrightn
               <h5 className="fw-bold">Işık Kontrolü</h5>
               <Button
                 variant={isLightOn ? "success" : "outline-secondary"}
-                onClick={() => setIsLightOn(!isLightOn)}
+                //onClick={() => setIsLightOn(!isLightOn)}
+                onClick={toggleLight}
               >
                 {isLightOn ? <LightbulbFill /> : <Lightbulb />}
               </Button>

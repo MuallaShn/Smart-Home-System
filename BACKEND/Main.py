@@ -1,40 +1,26 @@
 import asyncio
-import time
-
-from flask import Flask, render_template, jsonify, send_from_directory
-from selenium import webdriver
-from selenium.webdriver.common.by import By
+from flask import Flask, send_from_directory, request, jsonify
 from flask_cors import CORS
 
-
-
-
-app = Flask(__name__,static_folder="../FRONTEND/myapp/build",static_url_path="/")
+# Flask uygulaması
+app = Flask(__name__, static_folder="../FRONTEND/myapp/build", static_url_path="/")
+CORS(app)
 @app.route("/")
 def serve():
     return send_from_directory(app.static_folder, "index.html")
 
-
-
-
-
-def run_selenium():
-    driver = webdriver.Edge()
-    driver.get("http://127.0.0.1:5000")
-    driver.find_element(by=By.ID,value="center_button").click()
-    time.sleep(5)
-    driver.quit()
-
+@app.route("/turn_on", methods=["POST"])
+def turn_on():
+    print("ışık açıldı")
+    return send_from_directory(app.static_folder, "index.html")
 
 def run_flask():
-    app.run(debug=True, use_reloader=False)
+    app.run(port=5000, host="127.0.0.1", debug=True, use_reloader=False)
 
 async def main():
     await asyncio.gather(
-        asyncio.to_thread(run_flask),
-        asyncio.to_thread(run_selenium)
+        asyncio.to_thread(run_flask)
     )
-
 
 if __name__ == "__main__":
     asyncio.run(main())
