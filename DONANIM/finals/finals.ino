@@ -9,8 +9,8 @@ const char* password = "alexa123";  // Wi-Fi şifrenizi buraya yazın
 const char* serverURL = "http://192.168.137.1:5000/status"; // Flask sunucusunun IP adresini güncelleyin
 
 // LED pin tanımı
-#define LED_PIN D5
-#define LED_PIN2 D6
+#define LED_PIN2 D5
+#define LED_PIN D6
 #define LED_PIN3 D7
 #define LED_PIN4 D8
 

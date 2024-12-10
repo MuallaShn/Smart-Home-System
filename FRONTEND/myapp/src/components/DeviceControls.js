@@ -2,50 +2,53 @@ import React from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import { Lightbulb, LightbulbFill, VolumeUp } from "react-bootstrap-icons";
 
-export function DeviceControls({ isLightOn, setIsLightOn, brightness, setBrightness, volume, setVolume }) {
+export function DeviceControls({
+  isLightOn,
+  setIsLightOn,
+  brightness,
+  setBrightness,
+  volume,
+  setVolume,
+}) {
+  // Işığı açıp kapatma fonksiyonu
+  const toggleLight = () => {
+    // Yeni ışık durumu
+    const newLightState = !isLightOn;
 
+    // Işığın durumunu güncelle
+    setIsLightOn(newLightState);
 
-const toggleLight = () => {
-  // Işığın yeni durumunu hesapla
-  const newLightState = !isLightOn;
+    // Uygun API endpointini seç
+    const apiEndpoint = newLightState
+      ? "http://127.0.0.1:5000/turn" // Işığı aç
+      : "http://127.0.0.1:5000/turn_off"; // Işığı kapat
 
-  // Işığın durumunu güncelle
-  setIsLightOn(newLightState);
-
-  // API endpointini seç ve POST isteğini yap
-  const apiEndpoint = newLightState
-    ? "http://127.0.0.1:5000/turn" // Işığı aç
-    : "http://127.0.0.1:5000/turn_off"; // Işığı kapat
-
-  fetch(apiEndpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ komut: newLightState ? "ışığı aç" : "ışığı kapat" }),
-  })
-    .then((response) => {
-      if (response.ok) {
-        console.log(
-          "Backend'e ışık komutu gönderildi:",
-          newLightState ? "Aç" : "Kapat"
-        );
-      } else {
-        console.error("Hata oluştu:", response.status);
-      }
+    // API çağrısı
+    fetch(apiEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ komut: newLightState ? "ışığı aç" : "ışığı kapat" }),
     })
-    .catch((error) => {
-      console.error("Bağlantı hatası:", error.message);
-    });
-};
-
-
-
-
+      .then((response) => {
+        if (response.ok) {
+          console.log(
+            `Backend'e ışık komutu gönderildi: ${
+              newLightState ? "Aç" : "Kapat"
+            }`
+          );
+        } else {
+          console.error("Hata oluştu:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Bağlantı hatası:", error.message);
+      });
+  };
 
   return (
     <div className="row justify-content-center" style={{ columnGap: "8rem" }}>
-
       {/* Işık Kontrolü */}
       <div className="col-md-6 col-lg-4 d-flex justify-content-center">
         <Card className="shadow-sm w-100">
@@ -53,8 +56,8 @@ const toggleLight = () => {
             <div className="d-flex justify-content-between align-items-center mb-5">
               <h5 className="fw-bold">Işık Kontrolü</h5>
               <Button
+                type="button"
                 variant={isLightOn ? "success" : "outline-secondary"}
-                //onClick={() => setIsLightOn(!isLightOn)}
                 onClick={toggleLight}
               >
                 {isLightOn ? <LightbulbFill /> : <Lightbulb />}
@@ -78,7 +81,7 @@ const toggleLight = () => {
           <Card.Body style={{ height: "170px" }}>
             <div className="d-flex justify-content-between align-items-center mb-5">
               <h5 className="fw-bold">Ses Kontrolü</h5>
-              <Button variant="outline-secondary">
+              <Button type="button" variant="outline-secondary">
                 <VolumeUp />
               </Button>
             </div>
