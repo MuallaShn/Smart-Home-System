@@ -5,27 +5,43 @@ import { Lightbulb, LightbulbFill, VolumeUp } from "react-bootstrap-icons";
 export function DeviceControls({ isLightOn, setIsLightOn, brightness, setBrightness, volume, setVolume }) {
 
 
-     const toggleLight = () => {
-    setIsLightOn(!isLightOn);
-    console.log("Işık durumu değiştirildi:", !isLightOn ? "Açıldı" : "Kapatıldı");
-    fetch("http://127.0.0.1:5000/turn_on", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ komut: isLightOn ? "ışığı kapat" : "ışığı aç" }),
+const toggleLight = () => {
+  // Işığın yeni durumunu hesapla
+  const newLightState = !isLightOn;
+
+  // Işığın durumunu güncelle
+  setIsLightOn(newLightState);
+
+  // API endpointini seç ve POST isteğini yap
+  const apiEndpoint = newLightState
+    ? "http://127.0.0.1:5000/turn" // Işığı aç
+    : "http://127.0.0.1:5000/turn_off"; // Işığı kapat
+
+  fetch(apiEndpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ komut: newLightState ? "ışığı aç" : "ışığı kapat" }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        console.log(
+          "Backend'e ışık komutu gönderildi:",
+          newLightState ? "Aç" : "Kapat"
+        );
+      } else {
+        console.error("Hata oluştu:", response.status);
+      }
     })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Backend'e ışık komutu gönderildi:", !isLightOn ? "Aç" : "Kapat");
-        } else {
-          console.error("Hata oluştu:", response.status);
-        }
-      })
-      .catch((error) => {
-        console.error("Bağlantı hatası:", error.message);
-      });
-  };
+    .catch((error) => {
+      console.error("Bağlantı hatası:", error.message);
+    });
+};
+
+
+
+
 
   return (
     <div className="row justify-content-center" style={{ columnGap: "8rem" }}>
