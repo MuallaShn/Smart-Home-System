@@ -74,28 +74,6 @@ export function DeviceControls({
           </Card.Body>
         </Card>
       </div>
-
-      {/* Ses Kontrolü */}
-      <div className="col-md-6 col-lg-4 d-flex justify-content-center">
-        <Card className="shadow-sm w-100">
-          <Card.Body style={{ height: "170px" }}>
-            <div className="d-flex justify-content-between align-items-center mb-5">
-              <h5 className="fw-bold">Ses Kontrolü</h5>
-              <Button type="button" variant="outline-secondary">
-                <VolumeUp />
-              </Button>
-            </div>
-            <div className="d-flex align-items-center gap-3">
-              <VolumeUp size={20} />
-              <Form.Range
-                value={volume}
-                onChange={(e) => setVolume(Number(e.target.value))}
-                max={100}
-              />
-            </div>
-          </Card.Body>
-        </Card>
-      </div>
     </div>
   );
 }
