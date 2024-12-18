@@ -1,24 +1,42 @@
 import { useState } from "react";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
-import { Tv, TvFill, Phone, PhoneFill, Lightbulb, LightbulbFill } from "react-bootstrap-icons";
+import { Tv, TvFill, PcFill, Pc, Lightbulb, LightbulbFill } from "react-bootstrap-icons";
 
 export function SceneViewer({ theme }) {
   const [deviceStates, setDeviceStates] = useState({
     tv: false,
     phone: false,
-    light: false, // Ampül durumu
+    light: false,
   });
 
-  const toggleDevice = async (device) => {
-    const newState = !deviceStates[device];
-    setDeviceStates((prevStates) => ({
-      ...prevStates,
-      [device]: newState,
-    }));
 
-    // Sunucuya POST isteği gönder
-    await fetch(`http://192.168.137.1:5000/toggle/${device}`, { method: "POST" });
-  };
+
+  const toggleDevice = async (device) => {
+  const newState = !deviceStates[device];
+  setDeviceStates((prevStates) => ({
+    ...prevStates,
+    [device]: newState,
+  }));
+
+  const state = newState ? "turn_on" : "turn_off";
+
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/${device}/${state}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+};
+
 
   return (
     <Container className="mt-5">
@@ -50,17 +68,17 @@ export function SceneViewer({ theme }) {
       <Card.Body>
         <h5 className="mb-4">Bilgisayar</h5>
         <Button
-          variant={deviceStates["tv"] ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
-          onClick={() => toggleDevice("tv")}
+          variant={deviceStates["pc"] ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
+          onClick={() => toggleDevice("pc")}
           style={{ width: "50px", height: "50px" }}
         >
-          {deviceStates["tv"] ? <TvFill size={24} /> : <Tv size={24} />}
+          {deviceStates["pc"] ? <TvFill size={24} /> : <Tv size={24} />}
         </Button>
       </Card.Body>
     </Card>
   </Col>
 
-  {/* Telefon Kartı */}
+  {/* TV Kartı */}
   <Col xs={12} md={4} className="mb-4">
     <Card
       className="shadow-sm text-center"
@@ -72,13 +90,13 @@ export function SceneViewer({ theme }) {
       }}
     >
       <Card.Body>
-        <h5 className="mb-4">Telefon</h5>
+        <h5 className="mb-4">TV</h5>
         <Button
-          variant={deviceStates["phone"] ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
-          onClick={() => toggleDevice("phone")}
+          variant={deviceStates["tv"] ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
+          onClick={() => toggleDevice("tv")}
           style={{ width: "50px", height: "50px" }}
         >
-          {deviceStates["phone"] ? <PhoneFill size={24} /> : <Phone size={24} />}
+          {deviceStates["tv"] ? <TvFill size={24} /> : <Tv size={24} />}
         </Button>
       </Card.Body>
     </Card>

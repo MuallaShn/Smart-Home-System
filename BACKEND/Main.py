@@ -16,14 +16,14 @@ def serve():
     
     return send_from_directory(app.static_folder, "index.html")
 
-@app.route("/turn", methods=["POST", "GET"])
-def turn_on():
+@app.route("/<device>/<state>", methods=["POST", "GET"])
+def turn_on(device,state):
     global led_status
     led_status = "yak"
-    print("Komut: LED YAK")
-    return jsonify({"status": "LED YAK", "command": "yak"})
+    print(device ,":" ,state)
+    return jsonify({"status": device, "command": state})
 
-@app.route("/turn_off", methods=["POST", "GET"])
+@app.route("/light/turn_off", methods=["POST", "GET"])
 def turn_off():
     global led_status
     led_status = "kapa"
