@@ -1,14 +1,13 @@
 import React from "react";
 import { Card, Button, Form } from "react-bootstrap";
-import { Lightbulb, LightbulbFill, VolumeUp } from "react-bootstrap-icons";
+import { Lightbulb, LightbulbFill} from "react-bootstrap-icons";
 
 export function DeviceControls({
   isLightOn,
   setIsLightOn,
   brightness,
   setBrightness,
-  volume,
-  setVolume,
+
 }) {
   // Işığı açıp kapatma fonksiyonu
   const toggleLight = () => {
