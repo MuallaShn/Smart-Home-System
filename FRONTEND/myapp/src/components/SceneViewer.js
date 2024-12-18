@@ -84,7 +84,7 @@ export function SceneViewer({ theme }) {
     </Card>
   </Col>
 
-  {/* Cihaz Kontrolleri Kartı */}
+  {/* Priz*/}
   <Col xs={12} md={4} className="mb-4">
     <Card
       className="shadow-sm text-center"
