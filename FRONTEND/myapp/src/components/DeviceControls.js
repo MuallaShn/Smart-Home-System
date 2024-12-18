@@ -7,6 +7,7 @@ export function DeviceControls({
   setIsLightOn,
   brightness,
   setBrightness,
+  theme
 
 }) {
   // Işığı açıp kapatma fonksiyonu
@@ -47,32 +48,37 @@ export function DeviceControls({
   };
 
   return (
-    <div className="row justify-content-center" style={{ columnGap: "8rem" }}>
-      {/* Işık Kontrolü */}
-      <div className="col-md-6 col-lg-4 d-flex justify-content-center">
-        <Card className="shadow-sm w-100">
-          <Card.Body style={{ height: "170px" }}>
-            <div className="d-flex justify-content-between align-items-center mb-5">
-              <h5 className="fw-bold">Işık Kontrolü</h5>
-              <Button
-                type="button"
-                variant={isLightOn ? "success" : "outline-secondary"}
-                onClick={toggleLight}
-              >
-                {isLightOn ? <LightbulbFill /> : <Lightbulb />}
-              </Button>
-            </div>
-            <div className="d-flex align-items-center gap-3">
-              <Lightbulb size={20} />
-              <Form.Range
-                value={brightness}
-                onChange={(e) => setBrightness(Number(e.target.value))}
-                max={100}
-              />
-            </div>
-          </Card.Body>
-        </Card>
+      <div className="row justify-content-center" style={{ columnGap: "8rem" }}>
+        {/* Işık Kontrolü */}
+        <div className="col-md-6 col-lg-4 d-flex justify-content-center">
+          <Card
+            className="shadow-sm w-100"
+            style={{
+              backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
+              color: theme === "dark" ? "white" : "black",
+            }}
+          >
+            <Card.Body style={{ height: "170px" }}>
+              <div className="d-flex justify-content-between align-items-center mb-5">
+                <h5 className="fw-bold">Işık Kontrolü</h5>
+                <Button
+                  variant={isLightOn ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
+                  onClick={() => setIsLightOn(!isLightOn)}
+                >
+                  {isLightOn ? <LightbulbFill /> : <Lightbulb />}
+                </Button>
+              </div>
+              <div className="d-flex align-items-center gap-3">
+                <Lightbulb size={20} />
+                <Form.Range
+                  value={brightness}
+                  onChange={(e) => setBrightness(Number(e.target.value))}
+                  max={100}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
       </div>
-    </div>
-  );
+    );
 }

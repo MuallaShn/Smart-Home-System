@@ -36,73 +36,87 @@ export function SceneViewer({ theme }) {
         </Col>
       </Row>
       <Row className="justify-content-center mt-4">
-        {/* PC Kartı */}
-        <Col xs={12} md={4} className="mb-4">
-          <Card
-            className="shadow-sm text-center"
-            style={{
-              minHeight: "200px",
-              padding: "20px",
-              backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
-              color: theme === "dark" ? "white" : "black",
-            }}
-          >
-            <Card.Body>
-              <h5 className="mb-4">Bilgisayar</h5>
-              <Button
-                variant={deviceStates.tv ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
-                onClick={() => toggleDevice("tv")}
-              >
-                {deviceStates.tv ? <TvFill size={40} /> : <Tv size={40} />}
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        {/* Telefon Kartı */}
-        <Col xs={12} md={4} className="mb-4">
-          <Card
-            className="shadow-sm text-center"
-            style={{
-              minHeight: "200px",
-              padding: "20px",
-              backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
-              color: theme === "dark" ? "white" : "black",
-            }}
-          >
-            <Card.Body>
-              <h5 className="mb-4">Telefon</h5>
-              <Button
-                variant={deviceStates.phone ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
-                onClick={() => toggleDevice("phone")}
-              >
-                {deviceStates.phone ? <PhoneFill size={40} /> : <Phone size={40} />}
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        {/* Ampül Kartı */}
-        <Col xs={12} md={4} className="mb-4">
-          <Card
-            className="shadow-sm text-center"
-            style={{
-              minHeight: "200px",
-              padding: "20px",
-              backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
-              color: theme === "dark" ? "white" : "black",
-            }}
-          >
-            <Card.Body>
-              <h5 className="mb-4">Led</h5>
-              <Button
-                variant={deviceStates.light ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
-                onClick={() => toggleDevice("light")}
-              >
-                {deviceStates.light ? <LightbulbFill size={40} /> : <Lightbulb size={40} />}
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+  {/* Bilgisayar Kartı */}
+  <Col xs={12} md={4} className="mb-4">
+    <Card
+      className="shadow-sm text-center"
+      style={{
+        minHeight: "200px",
+        padding: "20px",
+        backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
+        color: theme === "dark" ? "white" : "black",
+      }}
+    >
+      <Card.Body>
+        <h5 className="mb-4">Bilgisayar</h5>
+        <Button
+          variant={deviceStates["tv"] ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
+          onClick={() => toggleDevice("tv")}
+          style={{ width: "50px", height: "50px" }}
+        >
+          {deviceStates["tv"] ? <TvFill size={24} /> : <Tv size={24} />}
+        </Button>
+      </Card.Body>
+    </Card>
+  </Col>
+
+  {/* Telefon Kartı */}
+  <Col xs={12} md={4} className="mb-4">
+    <Card
+      className="shadow-sm text-center"
+      style={{
+        minHeight: "200px",
+        padding: "20px",
+        backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
+        color: theme === "dark" ? "white" : "black",
+      }}
+    >
+      <Card.Body>
+        <h5 className="mb-4">Telefon</h5>
+        <Button
+          variant={deviceStates["phone"] ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
+          onClick={() => toggleDevice("phone")}
+          style={{ width: "50px", height: "50px" }}
+        >
+          {deviceStates["phone"] ? <PhoneFill size={24} /> : <Phone size={24} />}
+        </Button>
+      </Card.Body>
+    </Card>
+  </Col>
+
+  {/* Cihaz Kontrolleri Kartı */}
+  <Col xs={12} md={4} className="mb-4">
+    <Card
+      className="shadow-sm text-center"
+      style={{
+        minHeight: "200px",
+        padding: "20px",
+        backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
+        color: theme === "dark" ? "white" : "black",
+      }}
+    >
+      <Card.Body>
+        <h5 className="mb-4">Priz</h5>
+        <div className="d-flex justify-content-between">
+          {["light1", "light2", "light3", "light4"].map((device, index) => (
+            <Button
+              key={index}
+              variant={deviceStates[device] ? "success" : theme === "dark" ? "outline-light" : "outline-secondary"}
+              onClick={() => toggleDevice(device)}
+              style={{ width: "50px", height: "50px" }}
+            >
+              {deviceStates[device] ? (
+                <LightbulbFill size={24} />
+              ) : (
+                <Lightbulb size={24} />
+              )}
+            </Button>
+          ))}
+        </div>
+      </Card.Body>
+    </Card>
+  </Col>
+</Row>
     </Container>
   );
 }
