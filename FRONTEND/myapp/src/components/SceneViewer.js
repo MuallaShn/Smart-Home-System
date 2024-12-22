@@ -2,47 +2,56 @@ import { useState } from "react";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
 import { Tv, TvFill, Lightbulb, LightbulbFill } from "react-bootstrap-icons";
 
+// theme parametresi ile sayfanın açık veya koyu temaya uyarlanması sağlanır
 export function SceneViewer({ theme }) {
+  // Verilen stateler sayesinde cihazların durumları kontrol edilir ve güncellenir
   const [deviceStates, setDeviceStates] = useState({
     tv: false,
     phone: false,
     light: false,
   });
 
+  // Bu fonksiyon sayesinde cihazların durumları değiştirilir
   const toggleDevice = async (device) => {
+    // Yeni durumu, cihazın durumunun tersini hesaplayarak ayarlarız
     const newState = !deviceStates[device];
     setDeviceStates((prevStates) => ({
-      ...prevStates,
+      ...prevStates, // Diğer cihazlarun mevcut durumu korundu
       [device]: newState,
     }));
 
+    //Backend'e hangi işlemin yapılacağını belirtmek için kullanılır.
     const state = newState ? "turn_on" : "turn_off";
 
+    // Backende fetch api ile post isteği gönderiyoruz
     try {
       const response = await fetch(`http://127.0.0.1:5000/${device}/${state}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", // Json formatında veri gönderileceği belirlendi
         },
       });
+      //Gelen yanıtın başarılı olup olmadığı kontrolü yapılır başarısızsa hata atılır
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      console.log(data);
+      const data = await response.json(); // Gelen yanıt JSON formatında okunur ve "data" değişkenine atanır.
+      console.log(data); // Backend'den gelen veri konsola yazdırılır.
     } catch (error) {
-      console.error("Fetch error:", error);
+      console.error("Fetch error:", error); // Herhangi bir hata oluşursa konsola yazdırılır
     }
   };
 
+  // TV'nin kanalını değiştirmek için kullanılan bir fonksiyon.
   const changeChannel = (direction) => {
-    const action = direction === "up" ? "channel_up" : "channel_down";
+    const action = direction === "up" ? "channel_up" : "channel_down"; // direction eğer up ise action channel_up olur değilse channel_down olur
     return fetch(`http://127.0.0.1:5000/tv/${action}`, {
-      method: "POST",
+      method: "POST", // HTTP kodunun POST olduğu belirtilir
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", // Json formatında veri gönderileceği belirlendi
       },
     })
+      // İstekten dönen yanıt burada işlenir.
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -52,7 +61,7 @@ export function SceneViewer({ theme }) {
       .then((data) => console.log(data))
       .catch((error) => console.error("Fetch error:", error));
   };
-
+  // TV'nin ses seviyesini değiştirmek için kullanılan bir fonksiyon.
   const changeVolume = (direction) => {
     const action = direction === "up" ? "volume_up" : "volume_down";
     return fetch(`http://127.0.0.1:5000/tv/${action}`, {
@@ -82,13 +91,13 @@ export function SceneViewer({ theme }) {
         width: "380px",
         height: "250px",
         padding: "20px",
-        backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
-        color: theme === "dark" ? "white" : "black",
+        backgroundColor: theme === "dark" ? "#1E1E1E" : "white", // Tema koyuysa arka plan rengini "#1E1E1E" olarak ayarlar, aksi halde "white" yapar.
+        color: theme === "dark" ? "white" : "black", // Tema koyuysa metin rengini "white" olarak ayarlar, aksi halde "black" yapar.
       }}
     >
       <Card.Body>
         <h5 className="mb-4">Bilgisayar</h5>
-        <Button
+        <Button // Butona tıklandığında duruma göre renk değişikliği olur aynı zamanda sayfanın tema değişikliğine göre de değişiklik olur
           variant={
             deviceStates["pc"]
               ? "success"
@@ -96,11 +105,12 @@ export function SceneViewer({ theme }) {
               ? "outline-light"
               : "outline-secondary"
           }
+          // Eğer bilgisayar true ise, TvFill gösterilir. Kapalı durumdaysa, Tv gösterilir.
           onClick={() => toggleDevice("pc")}
           style={{ width: "55px", height: "55px" }}
         >
-          {deviceStates["pc"] ? <TvFill size={24} /> : <Tv size={24} />}
-        </Button>
+          {deviceStates["pc"] ? <TvFill size={24} /> : <Tv size={24} />}  
+          </Button> 
       </Card.Body>
     </Card>
   </Col>
@@ -142,7 +152,7 @@ export function SceneViewer({ theme }) {
           {/* TV Aç/Kapat Butonu */}
           <Button
             variant={
-              deviceStates["tv"]
+              deviceStates["tv"]// Butona tıklandığında duruma göre renk değişikliği olur aynı zamanda sayfanın tema değişikliğine göre de değişiklik olur
                 ? "success"
                 : theme === "dark"
                 ? "outline-light"
@@ -193,6 +203,7 @@ export function SceneViewer({ theme }) {
         <h5 className="mb-4">Priz</h5>
         <div className="d-flex justify-content-between">
           {["light1", "light2", "light3", "light4"].map((device, index) => (
+            // "map" fonksiyonu ile liste oluşturulur. Her bir cihaz için buton oluşturulur ve device değişkeni ile cihazların adı temsil edilir
             <Button
               key={index}
               variant={

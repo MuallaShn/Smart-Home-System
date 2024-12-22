@@ -10,7 +10,6 @@ function App() {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
-  // Renk değişkeni
   const textColor = theme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.85)";
 
   return (
@@ -19,7 +18,6 @@ function App() {
       <main style={{ marginTop: "80px" }}>
         <section className={`py-5 text-center ${theme === "dark" ? "bg-dark text-white" : "bg-light text-dark"}`}>
           <h1 className="display-4 fw-bold">Akıllı Ev Kontrolü</h1>
-          {/* Yazının rengini temaya göre dinamik olarak değiştir */}
           <p className="lead" style={{ color: textColor }}>
             Evinizi tek bir yerden kontrol edin
           </p>

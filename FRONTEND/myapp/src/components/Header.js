@@ -4,7 +4,7 @@ import { Sun, Moon } from "react-bootstrap-icons";
 
 export function Header({ theme, toggleTheme }) {
   return (
-    <Navbar
+    <Navbar // Arka plan renk değişimi ve buna bağlantılı olarak metin renk değişimleri kontrolü yapılır
     bg={theme === "dark" ? "dark" : "light"}
     variant={theme === "dark" ? "dark" : "light"}
     expand="md"
