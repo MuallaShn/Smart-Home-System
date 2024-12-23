@@ -1,43 +1,31 @@
 import React, { useState } from "react";
 import { Header } from "./components/Header";
 import { SceneViewer } from "./components/SceneViewer";
-import { DeviceControls } from "./components/DeviceControls";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [isLightOn, setIsLightOn] = useState(false);
-  const [brightness, setBrightness] = useState(50);
+  const [theme, setTheme] = useState("light");
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
+  const textColor = theme === "dark" ? "rgba(255, 255, 255, 0.7)" : "rgba(0, 0, 0, 0.85)";
 
   return (
-    <div>
-      <Header />
+    <div style={{ backgroundColor: theme === "dark" ? "#121212" : "white" }}>
+      <Header theme={theme} toggleTheme={toggleTheme} />
       <main style={{ marginTop: "80px" }}>
-        <section className="py-5 bg-light text-center">
+        <section className={`py-5 text-center ${theme === "dark" ? "bg-dark text-white" : "bg-light text-dark"}`}>
           <h1 className="display-4 fw-bold">Akıllı Ev Kontrolü</h1>
-          <p className="lead text-muted">Evinizi tek bir yerden kontrol edin</p>
+          <p className="lead" style={{ color: textColor }}>
+            Evinizi tek bir yerden kontrol edin
+          </p>
         </section>
-
         <section id="devices" className="py-5">
-          <SceneViewer isLightOn={isLightOn} brightness={brightness} />
-        </section>
-
-        <section id="scenes" className="py-5 bg-light">
-          <div className="container">
-            <h2 className="text-center fw-bold mb-4">Cihaz Kontrolleri</h2>
-            <DeviceControls
-              isLightOn={isLightOn}
-              setIsLightOn={setIsLightOn}
-              brightness={brightness}
-              setBrightness={setBrightness}
-            />
-          </div>
+          <SceneViewer theme={theme} />
         </section>
       </main>
-
-      <footer className="bg-dark text-white text-center py-3">
-        <p className="mb-0">© 2024 SmartHome. Tüm hakları saklıdır.</p>
-      </footer>
     </div>
   );
 }

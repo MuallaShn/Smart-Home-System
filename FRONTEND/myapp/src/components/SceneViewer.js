@@ -1,56 +1,234 @@
 import { useState } from "react";
-import { Button, Container, Row, Col } from "react-bootstrap"; // Bootstrap bileşenleri
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment } from "@react-three/drei";
+import { Button, Container, Row, Col, Card } from "react-bootstrap";
+import { Tv, TvFill, Lightbulb, LightbulbFill } from "react-bootstrap-icons";
 
-// Scene bileşenindeki props'u JavaScript'e uyumlu hale getiriyoruz
-function Scene({ isLightOn, brightness }) {
-  const lightIntensity = (brightness / 100) * (isLightOn ? 1 : 0);
+// theme parametresi ile sayfanın açık veya koyu temaya uyarlanması sağlanır
+export function SceneViewer({ theme }) {
+  // Verilen stateler sayesinde cihazların durumları kontrol edilir ve güncellenir
+  const [deviceStates, setDeviceStates] = useState({
+    tv: false,
+    phone: false,
+    light: false,
+  });
 
-  return (
-    <>
-      <ambientLight intensity={0.1} />
-      <spotLight
-        position={[0, 5, 0]}
-        intensity={lightIntensity}
-        angle={0.5}
-        penumbra={0.5}
-        color="#ffffff"
-      />
-      <mesh position={[0, 0, 0]}>
-        <cylinderGeometry args={[1, 1, 2, 32]} />
-        <meshStandardMaterial color="#333333" metalness={0.8} roughness={0.2} />
-      </mesh>
-      <mesh position={[0, 0.9, 0]}>
-        <torusGeometry args={[1.1, 0.05, 16, 100]} />
-        <meshStandardMaterial
-          color={isLightOn ? "#00ff00" : "#333333"}
-          emissive={isLightOn ? "#00ff00" : "#000000"}
-          emissiveIntensity={lightIntensity * 2}
-        />
-      </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
-        <planeGeometry args={[10, 10]} />
-        <meshStandardMaterial color="#f0f0f0" />
-      </mesh>
-    </>
-  );
-}
+  // Bu fonksiyon sayesinde cihazların durumları değiştirilir
+  const toggleDevice = async (device) => {
+    // Yeni durumu, cihazın durumunun tersini hesaplayarak ayarlarız
+    const newState = !deviceStates[device];
+    setDeviceStates((prevStates) => ({
+      ...prevStates, // Diğer cihazlarun mevcut durumu korundu
+      [device]: newState,
+    }));
 
-export function SceneViewer({ isLightOn, brightness }) {
+    //Backend'e hangi işlemin yapılacağını belirtmek için kullanılır.
+    const state = newState ? "turn_on" : "turn_off";
+
+    // Backende fetch api ile post isteği gönderiyoruz
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/${device}/${state}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Json formatında veri gönderileceği belirlendi
+        },
+      });
+      //Gelen yanıtın başarılı olup olmadığı kontrolü yapılır başarısızsa hata atılır
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json(); // Gelen yanıt JSON formatında okunur ve "data" değişkenine atanır.
+      console.log(data); // Backend'den gelen veri konsola yazdırılır.
+    } catch (error) {
+      console.error("Fetch error:", error); // Herhangi bir hata oluşursa konsola yazdırılır
+    }
+  };
+
+  // TV'nin kanalını değiştirmek için kullanılan bir fonksiyon.
+  const changeChannel = (direction) => {
+    const action = direction === "up" ? "channel_up" : "channel_down"; // direction eğer up ise action channel_up olur değilse channel_down olur
+    return fetch(`http://127.0.0.1:5000/tv/${action}`, {
+      method: "POST", // HTTP kodunun POST olduğu belirtilir
+      headers: {
+        "Content-Type": "application/json", // Json formatında veri gönderileceği belirlendi
+      },
+    })
+      // İstekten dönen yanıt burada işlenir.
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Fetch error:", error));
+  };
+  // TV'nin ses seviyesini değiştirmek için kullanılan bir fonksiyon.
+  const changeVolume = (direction) => {
+    const action = direction === "up" ? "volume_up" : "volume_down";
+    return fetch(`http://127.0.0.1:5000/tv/${action}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Fetch error:", error));
+  };
+
   return (
     <Container className="mt-5">
-      <Row className="justify-content-center">
-        <Col md={8}>
-          <div className="border rounded-3 shadow-sm overflow-hidden">
-            <Canvas camera={{ position: [4, 4, 4], fov: 50 }}  style={{ width: "100%", height: "400px" }}>
-              <Scene isLightOn={isLightOn} brightness={brightness} />
-              <OrbitControls enableZoom={false} />
-              <Environment preset="city" />
-            </Canvas>
+      <Row className="justify-content-center mt-4">
+  {/* Bilgisayar Kartı */}
+  <Col xs={12} md={4} className="mb-4">
+    <Card
+      className="shadow-sm text-center"
+      style={{
+        width: "380px",
+        height: "250px",
+        padding: "20px",
+        backgroundColor: theme === "dark" ? "#1E1E1E" : "white", // Tema koyuysa arka plan rengini "#1E1E1E" olarak ayarlar, aksi halde "white" yapar.
+        color: theme === "dark" ? "white" : "black", // Tema koyuysa metin rengini "white" olarak ayarlar, aksi halde "black" yapar.
+      }}
+    >
+      <Card.Body>
+        <h5 className="mb-4">Bilgisayar</h5>
+        <Button // Butona tıklandığında duruma göre renk değişikliği olur aynı zamanda sayfanın tema değişikliğine göre de değişiklik olur
+          variant={
+            deviceStates["pc"]
+              ? "success"
+              : theme === "dark"
+              ? "outline-light"
+              : "outline-secondary"
+          }
+          // Eğer bilgisayar true ise, TvFill gösterilir. Kapalı durumdaysa, Tv gösterilir.
+          onClick={() => toggleDevice("pc")}
+          style={{ width: "55px", height: "55px" }}
+        >
+          {deviceStates["pc"] ? <TvFill size={24} /> : <Tv size={24} />}  
+          </Button> 
+      </Card.Body>
+    </Card>
+  </Col>
+
+  {/* TV Kartı */}
+  <Col xs={12} md={4} className="mb-4">
+    <Card
+      className="shadow-sm text-center"
+      style={{
+        width: "380px",
+        height: "250px",
+        padding: "20px",
+        backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
+        color: theme === "dark" ? "white" : "black",
+      }}
+    >
+      <Card.Body>
+        <h5 className="mb-4">TV</h5>
+        <div className="d-flex justify-content-between align-items-center">
+          {/* Kanal Kontrol Butonları */}
+          <div className="d-flex flex-column align-items-center">
+            <Button
+              variant="outline-primary"
+              onClick={() => changeChannel("up")}
+              style={{ width: "50px", height: "50px" }}
+              className="mb-2"
+            >
+              ▲
+            </Button>
+            <Button
+              variant="outline-primary"
+              onClick={() => changeChannel("down")}
+              style={{ width: "50px", height: "50px" }}
+            >
+              ▼
+            </Button>
           </div>
-        </Col>
-      </Row>
+
+          {/* TV Aç/Kapat Butonu */}
+          <Button
+            variant={
+              deviceStates["tv"]// Butona tıklandığında duruma göre renk değişikliği olur aynı zamanda sayfanın tema değişikliğine göre de değişiklik olur
+                ? "success"
+                : theme === "dark"
+                ? "outline-light"
+                : "outline-secondary"
+            }
+            onClick={() => toggleDevice("tv")}
+            style={{ width: "55px", height: "55px" }}
+          >
+            {deviceStates["tv"] ? <TvFill size={24} /> : <Tv size={24} />}
+          </Button>
+
+          {/* Ses Kontrol Butonları */}
+          <div className="d-flex flex-column align-items-center">
+            <Button
+              variant="outline-success"
+              onClick={() => changeVolume("up")}
+              style={{ width: "50px", height: "50px" }}
+              className="mb-2"
+            >
+              🔊
+            </Button>
+            <Button
+              variant="outline-danger"
+              onClick={() => changeVolume("down")}
+              style={{ width: "50px", height: "50px" }}
+            >
+              🔉
+            </Button>
+          </div>
+        </div>
+      </Card.Body>
+    </Card>
+  </Col>
+
+  {/* Priz Kartı */}
+  <Col xs={12} md={4} className="mb-4">
+    <Card
+      className="shadow-sm text-center"
+      style={{
+        width: "380px",
+        height: "250px",
+        padding: "20px",
+        backgroundColor: theme === "dark" ? "#1E1E1E" : "white",
+        color: theme === "dark" ? "white" : "black",
+      }}
+    >
+      <Card.Body>
+        <h5 className="mb-4">Priz</h5>
+        <div className="d-flex justify-content-between">
+          {["light1", "light2", "light3", "light4"].map((device, index) => (
+            // "map" fonksiyonu ile liste oluşturulur. Her bir cihaz için buton oluşturulur ve device değişkeni ile cihazların adı temsil edilir
+            <Button
+              key={index}
+              variant={
+                deviceStates[device]
+                  ? "success"
+                  : theme === "dark"
+                  ? "outline-light"
+                  : "outline-secondary"
+              }
+              onClick={() => toggleDevice(device)}
+              style={{ width: "55px", height: "55px" }}
+            >
+              {deviceStates[device] ? (
+                <LightbulbFill size={24} />
+              ) : (
+                <Lightbulb size={24} />
+              )}
+            </Button>
+          ))}
+        </div>
+      </Card.Body>
+    </Card>
+  </Col>
+</Row>
+
     </Container>
   );
 }
