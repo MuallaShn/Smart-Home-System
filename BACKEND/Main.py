@@ -171,6 +171,9 @@
 #     app.run(host="0.0.0.0", port=5000)
 
 import os
+import time
+
+import serial
 from flask import Flask, jsonify
 from flask_cors import CORS
 from pyngrok import ngrok
@@ -191,6 +194,18 @@ voice_thread = None
 engine = pyttsx3.init()
 engine.setProperty("rate", 200)
 engine_lock = threading.Lock()
+
+#Ledin durumunu kontrol ediyor
+led_status ={
+    "pc":"turn_off",
+    "tv":"turn_off",
+    "light1":"turn_off",
+    "light2":"turn_off",
+    "light3":"turn_off",
+    "light4":"turn_off"
+}
+
+arduino=None
 
 def speak(text):
     """Metni sesli olarak okur."""
@@ -288,7 +303,53 @@ def toggle_voice_control():
         voice_control_active = False
         return jsonify({"status": "Sesli komut sistemi kapatıldı."})
 
-if __name__ == "__main__":
-    public_url = ngrok.connect(5000)
-    print(f"Ngrok Public URL: {public_url}")
-    app.run(host="0.0.0.0", port=5000)
+
+
+#Cihazların durumunu kontrol ettiğimiz metod
+@app.route("/<device>/<state>", methods=["POST", "GET"])
+def device_control(device,state):
+    global led_status
+    if state=="turn_on":
+        led_status[device] = "turn_on"
+    elif state=="turn_off":
+        led_status[device]="turn_off"
+    print(device ,":" ,state)
+    return jsonify({"status": device, "command": state})
+
+#Led durumunu sürekli kontrol eder
+@app.route('/<device>/status', methods=['GET'])
+def get_status(device):
+    return jsonify({"command":led_status[device]})
+    #return jsonify({"command": led_status})
+
+def connect_serial_port():
+    global arduino
+    try:
+        arduino = serial.Serial(
+            port='COM6',
+            baudrate=9600,
+            timeout=1
+        )
+        print(f"Arduino'ya bağlandı: {arduino.port}")
+    except Exception as e:
+        print(f"Bağlantı hatası: {e}")
+        exit()
+
+def send_task(task):
+    global arduino
+    try:
+        arduino.write(f"{task}\n".encode())
+        time.sleep(0.5)
+    except Exception as e:
+        print(f"hata {e}")
+        arduino.close()
+
+
+def app_run():
+    app.run(host='0.0.0.0', port=5000)
+
+if __name__ == '__main__':
+    public_url = ngrok.connect("5000")
+    connect_serial_port()
+    threading.Thread(target=send_task("LED_ON")).start()
+    threading.Thread(target=app_run).start()
