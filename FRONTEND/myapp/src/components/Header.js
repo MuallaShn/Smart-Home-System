@@ -100,10 +100,6 @@ export function Header({ theme, toggleTheme }) {
             {theme === "dark" ? <Sun className="me-1" /> : <Moon className="me-1" />}
           </Button>
 
-          <Button variant="primary" onClick={toggleLed}>
-            {ledStatus === "açık" ? "LED Kapat" : "LED Aç"}
-          </Button>
-
           <Button variant="success" onClick={toggleVoiceControl}>
             <Mic className="me-1" />
             {voiceStatus || "Sesli Komut Sistemi"}
@@ -111,8 +107,6 @@ export function Header({ theme, toggleTheme }) {
         </div>
       </div>
 
-      {ledStatus && <Alert variant="info" className="mt-3 text-center w-100">{ledStatus}</Alert>}
-      {voiceStatus && <Alert variant="warning" className="mt-3 text-center w-100">{voiceStatus}</Alert>}
     </Navbar>
   );
 }

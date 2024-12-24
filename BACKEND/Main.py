@@ -345,11 +345,11 @@ def send_task(task):
         arduino.close()
 
 
-def app_run():
-    app.run(host='0.0.0.0', port=5000)
+
+
 
 if __name__ == '__main__':
     public_url = ngrok.connect("5000")
-    connect_serial_port()
-    threading.Thread(target=send_task("LED_ON")).start()
-    threading.Thread(target=app_run).start()
+    #connect_serial_port()
+    #threading.Thread(target=send_task("LED_ON")).start()
+    threading.Thread(app.run(host='0.0.0.0', port=5000)).start()
