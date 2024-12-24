@@ -189,6 +189,7 @@ CORS(app)
 voice_control_active = False
 voice_thread = None
 led_status = "kapalı"
+user_name = None
 
 def speak(text):
     """Metni sesli olarak okur."""
@@ -229,15 +230,24 @@ def listen_command(prompt="Dinliyorum..."):
 
 def voice_control():
     """Sesli kontrol sistemi."""
-    global voice_control_active, led_status
+    global voice_control_active, led_status, user_name
     while voice_control_active:
         try:
+            if not user_name:
+                # Kullanıcı adını öğren
+                speak("Hello! What do you want me to call you?")
+                user_name = listen_command("Adını söyleyebilirsin.")
+                if user_name:
+                    speak(f"Pleased to meet you, {user_name}. How can I help you?")
+                else:
+                    speak("I didn't catch your name. Please tell me again.")
+                    continue
             command = listen_command("Alexa komutunu bekliyorum...")
             print(f"Algılanan komut: {command}")
             
             if command and "alexa" in command:
                 print("Alexa komutu algılandı.")
-                speak("Yes, i am listening")
+                speak(f"Yes {user_name}, i am listening")
                 
                 action = listen_command("Komutunuzu söyleyin...")
                 print(f"Algılanan aksiyon: {action}")
@@ -246,14 +256,34 @@ def voice_control():
                     if "led aç" in action:
                         led_status = "açık"
                         print("LED açılıyor...")
-                        speak("LED turned on.")
+                        speak(f"LED turned on , {user_name}")
                     elif "led kapa" in action:
                         led_status = "kapalı"
                         print("LED kapatılıyor...")
-                        speak("LED turned off.")
+                        speak(f"LED turned off, {user_name}")
+                    elif "televizyon aç" in action:
+                        print("Televizyon açılıyor...")
+                        speak(f"Turning on the television, {user_name}")
+                        #send_task("TV_ON")
+                    elif "televizyon kapa" in action:
+                        print("Televizyon kapatılıyor...")
+                        speak(f"Turning off the television ,{user_name}")
+                        #send_task("TV_OFF")
+                    elif "kanalı değiştir" in action:
+                        print("Kanal değiştiriliyor...")
+                        speak(f"Changing the channel, {user_name}")
+                        #send_task("CHANGE_CHANNEL")
+                    elif "sesi yükselt" in action:
+                        print("Ses düzeyi artırılıyor...")
+                        speak(f"Increasing the volume ,{user_name}")
+                        #send_task("VOLUME_UP")
+                    elif "sesi alçalt" in action:
+                        print("Ses düzeyi azaltılıyor...")
+                        speak(f"Decreasing the volume ,{user_name}")
+                        #send_task("VOLUME_DOWN")
                     elif "kapat" in action:
                         print("Sesli komut sistemi kapatılıyor...")
-                        speak("Shutting down the voice command system.")
+                        speak(f"Shutting down the voice command system ,{user_name}")
                         voice_control_active = False
                         break
                     else:
