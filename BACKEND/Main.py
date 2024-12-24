@@ -171,15 +171,14 @@
 #     app.run(host="0.0.0.0", port=5000)
 
 import os
+import threading
 import time
-
-import serial
 from flask import Flask, jsonify
 from flask_cors import CORS
 from pyngrok import ngrok
-import threading
 import speech_recognition as sr
-import pyttsx3
+from gtts import gTTS
+from playsound import playsound
 
 # Flask uygulaması
 static_folder_path = os.path.abspath("../FRONTEND/myapp/build")
@@ -189,29 +188,17 @@ CORS(app)
 # Global değişkenler
 voice_control_active = False
 voice_thread = None
-
-# Konuşma motoru ayarları
-engine = pyttsx3.init()
-engine.setProperty("rate", 200)
-engine_lock = threading.Lock()
-
-#Ledin durumunu kontrol ediyor
-led_status ={
-    "pc":"turn_off",
-    "tv":"turn_off",
-    "light1":"turn_off",
-    "light2":"turn_off",
-    "light3":"turn_off",
-    "light4":"turn_off"
-}
-
-arduino=None
+led_status = "kapalı"
 
 def speak(text):
     """Metni sesli olarak okur."""
-    with engine_lock:
-        engine.say(text)
-        engine.runAndWait()
+    try:
+        tts = gTTS(text=text, lang='en')
+        tts.save("output.mp3")
+        playsound("output.mp3")
+        os.remove("output.mp3")  # Geçici dosyayı sil
+    except Exception as e:
+        print(f"Sesi oynatırken hata oluştu: {e}")
 
 def listen_command(prompt="Dinliyorum..."):
     """Mikrofondan sesli komut alır."""
@@ -221,6 +208,7 @@ def listen_command(prompt="Dinliyorum..."):
         # Mikrofon kaynağı açılır ve otomatik olarak kapatılır
         with sr.Microphone() as source:
             recognizer.adjust_for_ambient_noise(source, duration=0.5)
+            print("Mikrofon dinleniyor...")
             audio = recognizer.listen(source, timeout=10, phrase_time_limit=5)
         # Komut algılanıyor
         command = recognizer.recognize_google(audio, language="tr-TR")
@@ -235,54 +223,54 @@ def listen_command(prompt="Dinliyorum..."):
     except sr.RequestError as e:
         print(f"Google API Hatası: {e}")
         return None
-
+    except Exception as e:
+        print(f"Beklenmeyen bir hata oluştu: {e}")
+        return None
 
 def voice_control():
     """Sesli kontrol sistemi."""
     global voice_control_active, led_status
     while voice_control_active:
         try:
-            # Alexa komutunu bekliyoruz
             command = listen_command("Alexa komutunu bekliyorum...")
+            print(f"Algılanan komut: {command}")
+            
             if command and "alexa" in command:
                 print("Alexa komutu algılandı.")
-                speak("Evet, dinliyorum.")
+                speak("Yes, i am listening")
                 
-                # İkinci komut için dinleme
                 action = listen_command("Komutunuzu söyleyin...")
+                print(f"Algılanan aksiyon: {action}")
+                
                 if action:
-                    # LED Aç Komutu
                     if "led aç" in action:
                         led_status = "açık"
                         print("LED açılıyor...")
-                        speak("LED açıldı.")
-                    
-                    # LED Kapat Komutu
+                        speak("LED turned on.")
                     elif "led kapa" in action:
                         led_status = "kapalı"
                         print("LED kapatılıyor...")
-                        speak("LED kapatıldı.")
-                    
-                    # Sistem Kapat Komutu
+                        speak("LED turned off.")
                     elif "kapat" in action:
                         print("Sesli komut sistemi kapatılıyor...")
-                        speak("Sesli komut sistemi kapatılıyor.")
+                        speak("Shutting down the voice command system.")
                         voice_control_active = False
                         break
-                    
-                    # Anlaşılmayan Komut
                     else:
                         print(f"Bilinmeyen komut: {action}")
-                        speak("Komutu anlayamadım. Lütfen tekrar deneyin.")
+                        speak("I don't understand the command, please try again.")
                 else:
                     print("Komut algılanamadı.")
-                    speak("Komut algılanamadı. Lütfen tekrar deneyin.")
+                    speak("The command could not be detected. Please try again.")
+                
+                # Bekleme süresi ekle
+                print("Bir sonraki komut için bekleniyor...")
+                time.sleep(5)  # Bekleme süresi (5 saniye)
             else:
                 print("Alexa komutu algılanmadı. Döngüye devam ediliyor...")
         except Exception as e:
             print(f"Bir hata oluştu: {e}")
-            speak("Bir hata oluştu. Lütfen tekrar deneyin.")
-
+            speak("An error has occurred. Please try again.")
 
 
 @app.route("/")
@@ -343,10 +331,6 @@ def send_task(task):
     except Exception as e:
         print(f"hata {e}")
         arduino.close()
-
-
-
-
 
 if __name__ == '__main__':
     public_url = ngrok.connect("5000")
