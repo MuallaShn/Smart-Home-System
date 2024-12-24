@@ -50,34 +50,7 @@ import { Navbar, Button, Alert } from "react-bootstrap";
 import { Sun, Moon, Mic } from "react-bootstrap-icons";
 
 export function Header({ theme, toggleTheme }) {
-  const [ledStatus, setLedStatus] = useState("");
-  const [voiceStatus, setVoiceStatus] = useState("");
-
-  // LED durumu sorgulama fonksiyonu
-  const fetchLedStatus = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:5000/led/status");
-      const data = await response.json();
-      setLedStatus(data.status);
-    } catch (error) {
-      console.error("LED durumu sorgulanırken hata oluştu:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchLedStatus();
-  }, []);
-
-  // LED aç/kapat toggle fonksiyonu
-  const toggleLed = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:5000/led/toggle", { method: "POST" });
-      const data = await response.json();
-      setLedStatus(data.status);
-    } catch (error) {
-      console.error("LED durumu değiştirilirken hata oluştu:", error);
-    }
-  };
+    const [voiceStatus, setVoiceStatus] = useState("");
 
   // Sesli komut sistemi başlat/kapat toggle fonksiyonu
   const toggleVoiceControl = async () => {
