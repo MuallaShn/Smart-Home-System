@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Header } from "./components/Header";
 import { SceneViewer } from "./components/SceneViewer";
+import { OpenAIChat } from "./OpenAIChat";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <section id="devices" className="py-5">
           <SceneViewer theme={theme} />
         </section>
+        <OpenAIChat />
       </main>
     </div>
   );
