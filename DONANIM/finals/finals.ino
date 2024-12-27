@@ -26,10 +26,10 @@ void setup() {
   pinMode(LED_PIN3, OUTPUT);
   pinMode(LED_PIN4, OUTPUT);
 
-  digitalWrite(LED_PIN1, HIGH);
-  digitalWrite(LED_PIN2, HIGH);
-  digitalWrite(LED_PIN3, HIGH);
-  digitalWrite(LED_PIN4, HIGH);
+  digitalWrite(LED_PIN1, LOW);
+  digitalWrite(LED_PIN2, LOW);
+  digitalWrite(LED_PIN3, LOW);
+  digitalWrite(LED_PIN4, LOW);
 
   // Wi-Fi bağlantısını başlat
   Serial.println("Wi-Fi'ye bağlanılıyor...");
@@ -54,11 +54,11 @@ void kontrolEt(const char* endpoint, int ledPin) {
       String payload = http.getString();
       Serial.println("Yanıt: " + payload);
 
-      // Endpoint'e göre LED durumunu değiştir
-      if (payload == "yak") {
+      // JSON yanıtını işle
+      if (payload.indexOf("\"command\":\"turn_on\"") > 0) {
         digitalWrite(ledPin, HIGH); // LED yak
         Serial.println("LED YAK");
-      } else if (payload == "kapa") {
+      } else if (payload.indexOf("\"command\":\"turn_off\"") > 0) {
         digitalWrite(ledPin, LOW); // LED kapa
         Serial.println("LED SÖNDÜR");
       }
@@ -71,10 +71,10 @@ void kontrolEt(const char* endpoint, int ledPin) {
 
 void loop() {
   // Her LED için kontrol
-  kontrolEt("/led1", LED_PIN1);
-  kontrolEt("/led2", LED_PIN2);
-  kontrolEt("/led3", LED_PIN3);
-  kontrolEt("/led4", LED_PIN4);
+  kontrolEt("/light1/status", LED_PIN1);
+  kontrolEt("/light2/status", LED_PIN2);
+  kontrolEt("/light3/status", LED_PIN3);
+  kontrolEt("/light4/status", LED_PIN4);
 
-  delay(1000); // Her kontrol arasında 1 saniye bekle
+  delay(500); // Her kontrol arasında 1 saniye bekle
 }
