@@ -1,26 +1,24 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-// Wi-Fi bilgileri
-const char* ssid = "alexa";      // Wi-Fi ağ adınızı buraya yazın
-const char* password = "alexa123";  // Wi-Fi şifrenizi buraya yazın
+const char* ssid = "alexa";
+const char* password = "alexa123";
 
-// Flask sunucusunun IP adresi ve portu
-const char* serverURL = "http://192.168.137.1:5000"; // Flask sunucusunun IP adresini güncelleyin
+const char* serverURL = "http://192.168.137.1:5000";
 
-// LED pin tanımları
+
 #define LED_PIN1 D1
 #define LED_PIN2 D2
 #define LED_PIN3 D3
 #define LED_PIN4 D4
 
-// Wi-Fi istemcisi
+
 WiFiClient client;
 
 void setup() {
   Serial.begin(9600);
 
-  // LED pinlerini çıkış olarak ayarla
+
   pinMode(LED_PIN1, OUTPUT);
   pinMode(LED_PIN2, OUTPUT);
   pinMode(LED_PIN3, OUTPUT);
@@ -31,7 +29,6 @@ void setup() {
   digitalWrite(LED_PIN3, LOW);
   digitalWrite(LED_PIN4, LOW);
 
-  // Wi-Fi bağlantısını başlat
   Serial.println("Wi-Fi'ye bağlanılıyor...");
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -54,7 +51,6 @@ void kontrolEt(const char* endpoint, int ledPin) {
       String payload = http.getString();
       Serial.println("Yanıt: " + payload);
 
-      // JSON yanıtını işle
       if (payload.indexOf("\"command\":\"turn_on\"") > 0) {
         digitalWrite(ledPin, HIGH); // LED yak
         Serial.println("LED YAK");
@@ -70,11 +66,10 @@ void kontrolEt(const char* endpoint, int ledPin) {
 }
 
 void loop() {
-  // Her LED için kontrol
   kontrolEt("/light1/status", LED_PIN1);
   kontrolEt("/light2/status", LED_PIN2);
   kontrolEt("/light3/status", LED_PIN3);
   kontrolEt("/light4/status", LED_PIN4);
 
-  delay(500); // Her kontrol arasında 1 saniye bekle
+  delay(500);
 }
