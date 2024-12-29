@@ -7,7 +7,7 @@ export function SceneViewer({ theme }) {
   // Verilen stateler sayesinde cihazların durumları kontrol edilir ve güncellenir
   const [deviceStates, setDeviceStates] = useState({
     tv: false,
-    phone: false,
+    pc: true,
     light: false,
   });
 
@@ -129,25 +129,9 @@ export function SceneViewer({ theme }) {
     >
       <Card.Body>
         <h5 className="mb-4">TV</h5>
-        <div className="d-flex justify-content-between align-items-center">
-          {/* Kanal Kontrol Butonları */}
-          <div className="d-flex flex-column align-items-center">
-            <Button
-              variant="outline-primary"
-              onClick={() => changeChannel("up")}
-              style={{ width: "50px", height: "50px" }}
-              className="mb-2"
-            >
-              ▲
-            </Button>
-            <Button
-              variant="outline-primary"
-              onClick={() => changeChannel("down")}
-              style={{ width: "50px", height: "50px" }}
-            >
-              ▼
-            </Button>
-          </div>
+
+
+
 
           {/* TV Aç/Kapat Butonu */}
           <Button
@@ -164,25 +148,6 @@ export function SceneViewer({ theme }) {
             {deviceStates["tv"] ? <TvFill size={24} /> : <Tv size={24} />}
           </Button>
 
-          {/* Ses Kontrol Butonları */}
-          <div className="d-flex flex-column align-items-center">
-            <Button
-              variant="outline-success"
-              onClick={() => changeVolume("up")}
-              style={{ width: "50px", height: "50px" }}
-              className="mb-2"
-            >
-              🔊
-            </Button>
-            <Button
-              variant="outline-danger"
-              onClick={() => changeVolume("down")}
-              style={{ width: "50px", height: "50px" }}
-            >
-              🔉
-            </Button>
-          </div>
-        </div>
       </Card.Body>
     </Card>
   </Col>
