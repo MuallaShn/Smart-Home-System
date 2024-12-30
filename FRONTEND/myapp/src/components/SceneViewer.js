@@ -42,44 +42,6 @@ export function SceneViewer({ theme }) {
     }
   };
 
-  // TV'nin kanalını değiştirmek için kullanılan bir fonksiyon.
-  const changeChannel = (direction) => {
-    const action = direction === "up" ? "channel_up" : "channel_down"; // direction eğer up ise action channel_up olur değilse channel_down olur
-    return fetch(`http://127.0.0.1:5000/tv/${action}`, {
-      method: "POST", // HTTP kodunun POST olduğu belirtilir
-      headers: {
-        "Content-Type": "application/json", // Json formatında veri gönderileceği belirlendi
-      },
-    })
-      // İstekten dönen yanıt burada işlenir.
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Fetch error:", error));
-  };
-  // TV'nin ses seviyesini değiştirmek için kullanılan bir fonksiyon.
-  const changeVolume = (direction) => {
-    const action = direction === "up" ? "volume_up" : "volume_down";
-    return fetch(`http://127.0.0.1:5000/tv/${action}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Fetch error:", error));
-  };
-
   return (
     <Container className="mt-5">
       <Row className="justify-content-center mt-4">
