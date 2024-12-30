@@ -7,15 +7,16 @@ def check_and_shutdown():
     try:
         while True:
             response = requests.get(url)
-
-            # Yanıtı kontrol et
+            # yanıtı kontrol eder
             if response.status_code == 200:
+                #json formatında olan veriyi alır ve command değerini pc_statuse atar
                 data = response.json()
                 pc_status = data.get("command")
 
+
                 print(f"PC Durumu: {pc_status}")
 
-                # PC "turn_off" durumundaysa bilgisayarı kapat
+                # eğer status turn_off ise pcyi uyku moduna alır
                 if pc_status == "turn_off":
                     print("Bilgisayar kapatılıyor...")
                     os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
@@ -26,8 +27,6 @@ def check_and_shutdown():
 
             time.sleep(1)
 
-    except requests.RequestException as e:
-        print(f"HTTP isteği sırasında bir hata oluştu: {e}")
     except Exception as e:
         print(f"Beklenmedik bir hata oluştu: {e}")
 

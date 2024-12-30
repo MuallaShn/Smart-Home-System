@@ -2,13 +2,14 @@ import os
 import threading
 from flask import Flask, jsonify
 from flask_cors import CORS
-from serialize import yolla_komutu
+from serialize import send_task
 
 
 static_folder_path = os.path.abspath("../FRONTEND/myapp/build")
 app = Flask(__name__, static_folder=static_folder_path, static_url_path="/")
 CORS(app)
 
+#her bir cihazın adı ve varsayılan değerleri
 device_status = {
     "pc": "turn_on",
     "light1": "turn_off",
@@ -16,13 +17,14 @@ device_status = {
     "light3": "turn_off",
     "light4": "turn_off",
 }
+
+# ana sayfayı döndürür
 @app.route("/")
 def index():
-    """React uygulamasının ana sayfasını döndürür."""
     return app.send_static_file("index.html")
 
 
-# Cihazların durumunu kontrol ettiğimiz metod
+# cihaz ve durumu şeklinde iki adet parametre alarak cihazların durumunu kontrol eder
 @app.route("/<device>/<state>", methods=["POST", "GET"])
 def device_control(device, state):
     global device_status
@@ -31,8 +33,9 @@ def device_control(device, state):
     elif state == "turn_off":
         device_status[device] = "turn_off"
 
+    #eğer cihaz televizyonsa send_task komutuna git
     if device == "tv":
-        yolla_komutu()
+        send_task()
     print(device, ":", state)
     return jsonify({"status": device, "command": state})
 
