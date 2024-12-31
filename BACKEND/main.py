@@ -2,7 +2,7 @@ import os # İşletim sistemi işlemleri (dosya yolları gibi) için kullanılan
 import threading # Paralel iş parçacıkları oluşturmak için kullanılan kütüphane
 from flask import Flask, jsonify  #Web uygulaması geliştirmek için kullanılan mikroframework
 from flask_cors import CORS  # CORS: Farklı kaynaklardan gelen isteklere izin vermek için
-from serialize import yolla_komutu
+from serialize import send_task
 
  
 static_folder_path = os.path.abspath("../FRONTEND/myapp/build") # React uygulamasının build klasörünün yolu
@@ -26,14 +26,15 @@ def index():
 # Cihazların durumunu kontrol ettiğimiz metod
 @app.route("/<device>/<state>", methods=["POST", "GET"])
 def device_control(device, state):
-    global device_status # Global cihaz durumlarına erişim
-    if state == "turn_on": # Eğer cihaz açılacaksa
+    global device_status
+    # Eğer cihaz açılacaksa
+    if state == "turn_on": 
         device_status[device] = "turn_on"
-    elif state == "turn_off": # Eğer cihaz Kapatılacaksa
+    elif state == "turn_off": 
         device_status[device] = "turn_off"
 
     if device == "tv": #Kontrol edilen cihaz TV ise
-        yolla_komutu()  # TV'ye özel bir komut gönder
+       send_task()  # TV'ye özel bir komut gönder
     print(device, ":", state) # Konsola cihaz ve durumu yazdır
     return jsonify({"status": device, "command": state}) # JSON formatında cihaz durumu döndür
 

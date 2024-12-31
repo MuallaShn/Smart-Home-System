@@ -11,9 +11,7 @@ def chat_with_ollama(prompt):
 
     ])
 
-    # Yanıtı kontrol et
-    #print("API Yanıtı:", response)
-
+    
     # Yanıtın içeriğini döndür
     if hasattr(response, "message") and hasattr(response.message, "content"):
          # Yanıt nesnesi beklenen formatta ise içeriği döndür

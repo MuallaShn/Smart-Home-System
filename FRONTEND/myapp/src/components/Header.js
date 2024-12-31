@@ -4,7 +4,6 @@ import { Sun, Moon } from "react-bootstrap-icons";
 
 export function Header({ theme, toggleTheme }) {
 
-
   return (
     <Navbar bg={theme === "dark" ? "dark" : "light"} variant={theme === "dark" ? "dark" : "light"} className="shadow-sm">
       <div className="container">
