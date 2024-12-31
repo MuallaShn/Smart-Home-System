@@ -19,7 +19,7 @@ This project is a Python-based **Smart Home System** designed to enhance modern 
 Ensure you have the following installed on your system:
 
 - Python 3.10 or higher
-- Required libraries (listed in `requirements.txt`)
+
 
 ### Steps
 
