@@ -45,7 +45,7 @@ The project leverages a combination of modern technologies and programming langu
 ---
 
 ## Contact us
-📧 [Mualla Şahin](muallashn11@gmail.com)
+- 🔗 [Mualla Şahin'in LinkedIn Profili](https://www.linkedin.com/in/muallashn11/)
 📧 [Esra Çimen](eesra8352@gmail.com)
 
 
