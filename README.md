@@ -11,18 +11,20 @@ The interface includes three different graphs to visualize vessel behavior:
 
 - **Pc Card**: The pc button provides computer shutdown control.
 - **TV Card**: The tv button is used to send a signal to the TV.
-- **Lights Card**: Led buttons to provide control to turn the leds on and off.
+- **Lights Card**: Led buttons to provide control to turn the LEDs on and off.
+
+## Technologies Used
+
+The project leverages a combination of modern technologies and programming languages:
+
+-Python: Backend programming for voice control assistant.
+-Javascript: Connect to devices with dynamic URLs and change state control.
+-C++: Ardunio control.
+-React & Bootstrap: Structure and styling for the user interface.
+-Ollama, Vosk, Sounddevice, gTTs, pygame 
 
 
-
-## Installation
-
-### Prerequisites
-
-Ensure you have the following installed on your system:
-
-- Python 3.10 or higher
-
+## Getting Started
 
 ### Steps
 
@@ -30,3 +32,10 @@ Ensure you have the following installed on your system:
    ```bash
    git clone https://github.com/MuallaShn/Python_final.git
    cd Python_final
+2. **Run the project using Python**:
+   ```
+   python Main.py
+
+## Contributors
+
+    
