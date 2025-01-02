@@ -1,11 +1,9 @@
-
-import React, { useState, useEffect } from "react";
-import { Navbar, Button, Alert } from "react-bootstrap";
-import { Sun, Moon, Mic } from "react-bootstrap-icons";
+import React from "react";
+import { Navbar, Button } from "react-bootstrap";
+import { Sun, Moon } from "react-bootstrap-icons";
 
 export function Header({ theme, toggleTheme }) {
-  const [ledStatus, setLedStatus] = useState("");
-  const [voiceStatus, setVoiceStatus] = useState("");
+
 
   return (
     <Navbar bg={theme === "dark" ? "dark" : "light"} variant={theme === "dark" ? "dark" : "light"} className="shadow-sm">
@@ -17,16 +15,9 @@ export function Header({ theme, toggleTheme }) {
             {theme === "dark" ? <Sun className="me-1" /> : <Moon className="me-1" />}
           </Button>
 
-          <Button variant="primary" onClick={toggleLed}>
-            {ledStatus === "açık" ? "LED Kapat" : "LED Aç"}
-          </Button>
-
-          <Button variant="success" onClick={toggleVoiceControl}>
-            <Mic className="me-1" />
-            
-          </Button>
         </div>
       </div>
+
     </Navbar>
   );
 }
