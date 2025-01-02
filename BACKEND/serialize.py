@@ -27,3 +27,13 @@ def yolla_komutu(port = "COM5", baudrate = 9600 , tekrar_sayisi = 3):
         print(f"Seri bağlantı hatası: {e}")
     except Exception as e:
         print(f"Bir hata oluştu: {e}")
+
+# Kullanım
+if __name__ == "__main__":
+    # Arduino'nun bağlı olduğu portu ve baudrate değerini ayarlayın
+    port = "COM5"  # Arduino'nun bağlı olduğu port (Windows için COMx, Linux/Mac için /dev/ttyUSBx)
+    baudrate = 9600  # Arduino ile aynı baudrate
+    tekrar_sayisi = 3  # Kaç kez sinyal gönderileceğini belirleyin
+
+    # Komut fonksiyonunu çağırın
+    yolla_komutu(port, baudrate, tekrar_sayisi)
