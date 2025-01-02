@@ -47,6 +47,8 @@ The project leverages a combination of modern technologies and programming langu
 ## Contact us
 - 🔗 [Mualla Şahin](https://www.linkedin.com/in/muallashn11/)
 - 🔗 [Esra Çimen](https://www.linkedin.com/in/esra-%C3%A7imen-a49173253/)
+- 🔗 [Beytullah Çakır](https://www.linkedin.com/in/beytullah-%C3%A7ak%C4%B1r-052518270/)
+- 🔗 [Abdulkadir Ustasaraç](https://www.linkedin.com/in/abdulkadir-ustasarac/)
 
 
 
