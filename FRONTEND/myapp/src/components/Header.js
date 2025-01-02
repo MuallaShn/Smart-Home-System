@@ -1,6 +1,6 @@
 import React from "react";
-import { Navbar, Button } from "react-bootstrap";
-import { Sun, Moon } from "react-bootstrap-icons";
+import { Navbar, Button } from "react-bootstrap"; // React-Bootstrap'tan Navbar ve Button bileşenlerini içe aktarıyoruz.
+import { Sun, Moon } from "react-bootstrap-icons"; // React-Bootstrap-Icons'tan Güneş ve Ay ikonlarını içe aktarıyoruz.
 
 export function Header({ theme, toggleTheme }) {
 
