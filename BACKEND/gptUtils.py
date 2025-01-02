@@ -10,9 +10,6 @@ def chat_with_ollama(prompt):
         {"role": "user", "content": prompt} # Kullanıcı tarafından gönderilen metin
 
     ])
-    
-     # Yanıtı kontrol et
-    #print("API Yanıtı:", response)
 
     # Yanıtın içeriğini döndür
     if hasattr(response, "message") and hasattr(response.message, "content"):
