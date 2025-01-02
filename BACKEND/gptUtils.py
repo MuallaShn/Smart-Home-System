@@ -11,7 +11,6 @@ def chat_with_ollama(prompt):
 
     ])
 
-    
     # Yanıtın içeriğini döndür
     if hasattr(response, "message") and hasattr(response.message, "content"):
          # Yanıt nesnesi beklenen formatta ise içeriği döndür
@@ -28,7 +27,7 @@ def main():
     while True:
         user_input = input("Sen: ")  # Kullanıcıdan giriş al
         if user_input.lower() == 'exit': # Kullanıcı 'exit' yazarsa sohbet sonlanır
-            print("Görüşmek üzere!") # Çıkış mesajı
+            print("Görüşmek üzere!") # Çıkış mesajı ,Termianlden geri yanıt döner
             break
         response = chat_with_ollama(user_input)
         print(f"Bot: {response}")
