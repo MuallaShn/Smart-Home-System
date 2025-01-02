@@ -17,11 +17,11 @@ The interface includes three different graphs to visualize vessel behavior:
 
 The project leverages a combination of modern technologies and programming languages:
 
--Python: Backend programming for voice control assistant.
--Javascript: Connect to devices with dynamic URLs and change state control.
--C++: Ardunio control.
--React & Bootstrap: Structure and styling for the user interface.
--Ollama, Vosk, Sounddevice, gTTs, pygame 
+- **Python**: Backend programming for voice control assistant.
+- **Javascript**: Connect to devices with dynamic URLs and change state control.
+- **C++**: Ardunio control.
+- **React & Bootstrap**: Structure and styling for the user interface.
+- **Ollama, Vosk, Sounddevice, gTTs, pygame**
 
 
 ## Getting Started
