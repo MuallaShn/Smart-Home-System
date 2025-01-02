@@ -41,10 +41,11 @@ The project leverages a combination of modern technologies and programming langu
 <a href="https://github.com/MuallaShn/Python_final/graphs/contributors">
      <img src="https://contrib.rocks/image?repo=MuallaShn/Python_final" />
 </a>
+<!---
 <a href="https://github.com/Esra469">
   <img src="https://avatars.githubusercontent.com/Esra469?s=100" alt="Esra469" style="border-radius: 50%; border: 2px solid #ddd; width: 100px;" />
 </a>
-
+-->
 
 ---
 
