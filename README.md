@@ -58,7 +58,7 @@ The project leverages a combination of modern technologies and programming langu
 - 🔗 [Beytullah Çakır](https://www.linkedin.com/in/beytullah-%C3%A7ak%C4%B1r-052518270/)
 - 🔗 [Abdulkadir Ustasaraç](https://www.linkedin.com/in/abdulkadir-ustasarac/)
 
-
+---
 
 ![darkMode](https://github.com/user-attachments/assets/d286306f-354d-43bc-af20-adea2d1cf30f)
 
