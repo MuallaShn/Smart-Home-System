@@ -1,15 +1,15 @@
-# import ollama  # Ollama API'si ile etkileşim kurmak için kullanılan kütüphane
+import ollama  # Ollama API'si ile etkileşim kurmak için kullanılan kütüphane
 
-# def chat_with_ollama(prompt):
-#     # Ollama ile sohbet et
-#     response = ollama.chat(model='llama3.1', messages=[
-#         # Sistem mesajları, modelin davranışını tanımlar
-#         {"role": "system","content": "keep answers short. "},
-#         {"role": "system", "content": "NEVER ASK QUESTIONS"},
-#         {"role": "system","content": "Your name is Ayşe. You are a Turkish-speaking AI assistant. Your purpose is to help users with clear, accurate, and concise answers in Turkish. You are friendly, patient, and professional. Your tone is approachable and adaptable to the user's needs, ensuring they feel supported. You focus on providing useful, actionable information while keeping your responses respectful and easy to understand. Your communication should always be fluent and natural in Turkish."},
-#         {"role": "user", "content": prompt} # Kullanıcı tarafından gönderilen metin
+def chat_with_ollama(prompt):
+    # Ollama ile sohbet et
+    response = ollama.chat(model='llama3.1', messages=[
+        # Sistem mesajları, modelin davranışını tanımlar
+        {"role": "system","content": "keep answers short. "},
+        {"role": "system", "content": "NEVER ASK QUESTIONS"},
+        {"role": "system","content": "Your name is Ayşe. You are a Turkish-speaking AI assistant. Your purpose is to help users with clear, accurate, and concise answers in Turkish. You are friendly, patient, and professional. Your tone is approachable and adaptable to the user's needs, ensuring they feel supported. You focus on providing useful, actionable information while keeping your responses respectful and easy to understand. Your communication should always be fluent and natural in Turkish."},
+        {"role": "user", "content": prompt} # Kullanıcı tarafından gönderilen metin
 
-#     ])
+    ])
 
     # Yanıtın içeriğini döndür
     if hasattr(response, "message") and hasattr(response.message, "content"):
