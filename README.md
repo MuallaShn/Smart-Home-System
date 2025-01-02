@@ -42,6 +42,7 @@ The project leverages a combination of modern technologies and programming langu
      <img src="https://contrib.rocks/image?repo=MuallaShn/Python_final" />
 </a>
 
+---
 
 ![darkMode](https://github.com/user-attachments/assets/d286306f-354d-43bc-af20-adea2d1cf30f)
 
