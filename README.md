@@ -5,6 +5,15 @@ Ayşe is an artificial intelligence system that enables users to manage various 
 This project integrates with hardware prototypes, enabling physical operations such as controlling LEDs and a TV. Furthermore, the buttons on the web interface allow users to control the LEDs and TV and connect to and turn off the computer.
 
 ---
+## Visualization
+
+The interface includes three different graphs to visualize vessel behavior:
+
+- **Pc Card**: The pc button provides computer shutdown control.
+- **TV Card**: The tv button is used to send a signal to the TV.
+- **Lights Card**: Led buttons to provide control to turn the leds on and off.
+
+
 
 ## Installation
 
