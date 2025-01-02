@@ -42,8 +42,8 @@ The project leverages a combination of modern technologies and programming langu
      <img src="https://contrib.rocks/image?repo=MuallaShn/Python_final" />
 </a>
 
-<a href="https://github.com/Esra469/ScreenSaverr/graphs/contributors">
-     <img src="https://contrib.rocks/image?repo=Esra469/ScreenSaverr" />
+<a href="https://github.com/Esra469/AiProcess/graphs/contributors">
+     <img src="https://contrib.rocks/image?repo=Esra469/AiProcess" />
 </a>
 
 
