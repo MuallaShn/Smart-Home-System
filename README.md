@@ -38,9 +38,7 @@ The project leverages a combination of modern technologies and programming langu
 
 
 ## Contributors
-<a href="https://github.com/MuallaShn/Python_final/graphs/contributors">
-     <img src="https://contrib.rocks/image?repo=MuallaShn/Python_final" />
-</a>
+
 
 ---
 
