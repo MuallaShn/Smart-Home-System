@@ -1,14 +1,8 @@
-# Smart Home System
+# Smart Home System Introduction
 
-This project is a Python-based **Smart Home System** designed to enhance modern living by automating and optimizing various home functionalities. The system integrates user-friendly features and a robust backend to deliver an efficient, scalable, and smart solution for home automation.
+Ayşe is an artificial intelligence system that enables users to manage various hardware components through voice commands and web-based controls. Ayşe is designed to answer most of the users' questions thanks to its AI infrastructure and functions as a smart assistant.
 
-## Features
-
-- **Intelligent Device Management**: Control and monitor smart devices seamlessly.
-- **Customizable Automation**: Set personalized rules and schedules for home automation.
-- **Real-Time Monitoring**: Get live updates and status reports of connected devices.
-- **User-Friendly Interface**: Easy-to-use application interface for all users.
-- **Scalability**: Modular design allows easy integration of new features and devices.
+This project integrates with hardware prototypes, enabling physical operations such as controlling LEDs and a TV. Furthermore, the buttons on the web interface allow users to control the LEDs and TV and connect to and turn off the computer.
 
 ---
 
