@@ -1,49 +1,3 @@
-// import React from "react";
-// import { Navbar, Nav, Button } from "react-bootstrap";
-// import { Sun, Moon } from "react-bootstrap-icons";
-
-// export function Header({ theme, toggleTheme }) {
-//   return (
-//     <Navbar // Arka plan renk değişimi ve buna bağlantılı olarak metin renk değişimleri kontrolü yapılır
-//     bg={theme === "dark" ? "dark" : "light"}
-//     variant={theme === "dark" ? "dark" : "light"}
-//     expand="md"
-//     className="shadow-sm"
-//     style={{
-//       backdropFilter: "blur(10px)",
-//       background: theme === "dark" ? "rgba(0, 0, 0, 0.9)" : "rgba(255, 255, 255, 0.9)",
-//       borderBottom: theme === "dark" ? "1px solid black" : "1px solid rgba(0, 0, 0, 0.1)", // Dinamik renk
-//     }}
-//   >
-  
-//       <div className="container">
-//         <Navbar.Brand href="#home" className="fw-bold fs-4">
-//           SmartHome
-//         </Navbar.Brand>
-
-//         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-//         <Navbar.Collapse id="basic-navbar-nav">
-//           <Nav className="me-auto">
-//             <Nav.Link href="#devices" className="px-3">
-//               Cihazlar
-//             </Nav.Link>
-//           </Nav>
-//         </Navbar.Collapse>
-
-//         <div className="d-flex align-items-center gap-3">
-//           <Button
-//             variant={theme === "dark" ? "light" : "outline-secondary"}
-//             className="d-flex align-items-center"
-//             onClick={toggleTheme}
-//           >
-//             {theme === "dark" ? <Sun className="me-1" /> : <Moon className="me-1" />}
-//           </Button>
-//           <Button variant="primary">Giriş Yap</Button>
-//         </div>
-//       </div>
-//     </Navbar>
-//   );
-// }
 
 import React, { useState, useEffect } from "react";
 import { Navbar, Button, Alert } from "react-bootstrap";
@@ -52,43 +6,6 @@ import { Sun, Moon, Mic } from "react-bootstrap-icons";
 export function Header({ theme, toggleTheme }) {
   const [ledStatus, setLedStatus] = useState("");
   const [voiceStatus, setVoiceStatus] = useState("");
-
-  // LED durumu sorgulama fonksiyonu
-  const fetchLedStatus = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:5000/led/status");
-      const data = await response.json();
-      setLedStatus(data.status);
-    } catch (error) {
-      console.error("LED durumu sorgulanırken hata oluştu:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchLedStatus();
-  }, []);
-
-  // LED aç/kapat toggle fonksiyonu
-  const toggleLed = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:5000/led/toggle", { method: "POST" });
-      const data = await response.json();
-      setLedStatus(data.status);
-    } catch (error) {
-      console.error("LED durumu değiştirilirken hata oluştu:", error);
-    }
-  };
-
-  // Sesli komut sistemi başlat/kapat toggle fonksiyonu
-  const toggleVoiceControl = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:5000/voice/toggle", { method: "POST" });
-      const data = await response.json();
-      setVoiceStatus(data.status);
-    } catch (error) {
-      console.error("Sesli komut sistemi değiştirilirken hata oluştu:", error);
-    }
-  };
 
   return (
     <Navbar bg={theme === "dark" ? "dark" : "light"} variant={theme === "dark" ? "dark" : "light"} className="shadow-sm">
@@ -106,13 +23,10 @@ export function Header({ theme, toggleTheme }) {
 
           <Button variant="success" onClick={toggleVoiceControl}>
             <Mic className="me-1" />
-            {voiceStatus || "Sesli Komut Sistemi"}
+            
           </Button>
         </div>
       </div>
-
-      {ledStatus && <Alert variant="info" className="mt-3 text-center w-100">{ledStatus}</Alert>}
-      {voiceStatus && <Alert variant="warning" className="mt-3 text-center w-100">{voiceStatus}</Alert>}
     </Navbar>
   );
 }
