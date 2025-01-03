@@ -57,9 +57,10 @@ The project leverages a combination of modern technologies and programming langu
 
 ---
 
-![darkMode](https://github.com/user-attachments/assets/d286306f-354d-43bc-af20-adea2d1cf30f)
-
-![lightMode](https://github.com/user-attachments/assets/73bcff92-3772-421f-ab35-e146a1346c19)
 
 
-    
+![darkMode](https://github.com/user-attachments/assets/d5f95193-8de4-4784-b603-8af3cafe678a)
+
+
+![lightMode](https://github.com/user-attachments/assets/49dfa0ac-7a2c-404e-aa89-40cc46bd610d)
+
