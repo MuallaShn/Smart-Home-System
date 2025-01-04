@@ -59,6 +59,12 @@ The project leverages a combination of modern technologies and programming langu
 
 ## Demo Video
 
+## Demo Video
+
+<video width="640" height="360" controls>
+  <source src="smartHomeSystem.mp4" type="video/mp4">
+</video>
+
 [Smart Home System Demo](smartHomeSystem.mp4)
 
 
