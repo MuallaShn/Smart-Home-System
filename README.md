@@ -58,8 +58,7 @@ The project leverages a combination of modern technologies and programming langu
 ---
 
 ## Demo Video
-
-(media/smartHomeSystem.mp4)
+[Smart Home System Demo](media/smartHomeSystem.mp4)
 
 
 
