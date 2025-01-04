@@ -58,9 +58,10 @@ The project leverages a combination of modern technologies and programming langu
 ---
 
 ## Demo Video
+
 [Smart Home System Demo](media/smartHomeSystem.mp4)
 
-
+---
 
 
 ![darkMode](https://github.com/user-attachments/assets/d5f95193-8de4-4784-b603-8af3cafe678a)
