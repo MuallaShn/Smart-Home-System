@@ -64,9 +64,10 @@ The project leverages a combination of modern technologies and programming langu
 
 ## Smart Home System Demo
 
-<video src="smartHomeSystem.mp4" controls width="600">
+<video src="Download/smartHomeSystem.mp4" controls width="600">
   Tarayıcınız video oynatmayı desteklemiyor.
 </video>
+
 ---
 
 
