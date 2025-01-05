@@ -69,3 +69,4 @@ The project leverages a combination of modern technologies and programming langu
 
 ![lightMode](https://github.com/user-attachments/assets/49dfa0ac-7a2c-404e-aa89-40cc46bd610d)
 
+
